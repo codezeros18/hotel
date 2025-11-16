@@ -18,43 +18,65 @@ export default function Index() {
         </Text>
 
         <Text className="text-white/90 mt-4 text-lg font-poppinsRegular">
-          Seamless room booking experience for guests and  
-          effortless hotel management for admins.
+          Seamless room booking and painless hotel operations in one app.
         </Text>
       </View>
 
-      {/* FLOATING ROLE ROW */}
-      <View className="flex-row items-center justify-between px-8 pb-14">
-
-        {/* LEFT — Continue as Guest */}
+      {/* FIRST ROW — Guest & Admin */}
+      <View className="flex-row items-center justify-between px-8 pb-6">
+        {/* Guest */}
         <TouchableOpacity
           onPress={() => router.push("/guest/home")}
           className="px-4 py-2"
         >
           <Text className="text-white text-xl font-poppinsSemiBold">
-            Guest
+            Guest →
           </Text>
         </TouchableOpacity>
 
-        {/* DOTS (optional, aesthetic) */}
+        {/* Dots */}
         <View className="flex-row items-center gap-2">
           <View className="w-2 h-2 rounded-full bg-white/40" />
           <View className="w-2 h-2 rounded-full bg-white" />
           <View className="w-2 h-2 rounded-full bg-white/40" />
         </View>
 
-        {/* RIGHT — Continue as Admin */}
+        {/* Admin */}
         <TouchableOpacity
           onPress={() => router.push("/admin/dashboard")}
-          className="bg-white px-6 py-3 rounded-full flex-row items-center shadow-xl"
+          className="bg-white px-6 py-3 rounded-full shadow-xl"
         >
-          <Text className="text-black text-xl font-poppinsSemiBold mr-1">
-            Admin
+          <Text className="text-black text-xl font-poppinsSemiBold">
+            Admin →
           </Text>
-          <Text className="text-black text-2xl">→</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* SECOND ROW — Login / Signup */}
+      <View className="flex-row items-center justify-between px-8 pb-14">
+
+        {/* Login */}
+        <TouchableOpacity
+          onPress={() => router.push("/auth/login")}
+          className="border border-white/60 px-6 py-3 rounded-full"
+        >
+          <Text className="text-white text-lg font-poppinsMedium">
+            Login
+          </Text>
+        </TouchableOpacity>
+
+        {/* Signup */}
+        <TouchableOpacity
+          onPress={() => router.push("/auth/register")}
+          className="px-6 py-3 rounded-full bg-white/20 backdrop-blur-md"
+        >
+          <Text className="text-white text-lg font-poppinsMedium">
+            Sign Up
+          </Text>
         </TouchableOpacity>
 
       </View>
+
     </ImageBackground>
   );
 }

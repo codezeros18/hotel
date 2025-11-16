@@ -1,43 +1,50 @@
 import { Ionicons } from "@expo/vector-icons";
-import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { ScrollView, Text, TouchableOpacity } from "react-native";
 
-const categories = [
-  { id: 1, label: "Room", icon: "bed-outline", active: true },
-  { id: 2, label: "Food", icon: "restaurant-outline" },
-  { id: 3, label: "Car", icon: "car-outline" },
+const CATEGORIES = [
+  { label: "Hotels", icon: "bed-outline" },
+  { label: "Transport", icon: "car-outline" },
+  { label: "Food Service", icon: "restaurant-outline" },
 ];
 
 export default function CategoryTabs() {
+  const [active, setActive] = useState("Hotels");
+
   return (
-    <View className="items-center mb-6">
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ justifyContent: "center", alignItems: "center" }}
-      >
-        {categories.map((item) => (
+    <ScrollView
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      className="px-4 mt-8 mb-4"
+    >
+      {CATEGORIES.map((item) => {
+        const isActive = item.label === active;
+        return (
           <TouchableOpacity
-            key={item.id}
-            className={`flex items-center mx-2 px-6 py-3 rounded-2xl ${
-              item.active ? "bg-primary" : "bg-white"
-            }`}
-            disabled={!item.active}
+            key={item.label}
+            onPress={() => setActive(item.label)}
+            className={`flex-row items-center px-8 py-3 mr-3 rounded-full border
+              ${
+                isActive
+                  ? "bg-primary border-primary"
+                  : "bg-white border-gray-300"
+              }`}
           >
             <Ionicons
               name={item.icon as any}
-              size={22}
-              color={item.active ? "white" : "#6B7280"}
+              size={20}
+              color={isActive ? "white" : "#003C99"}
             />
             <Text
-              className={`mt-1 text-sm font-poppinsMedium ${
-                item.active ? "text-white" : "text-grayText"
+              className={`ml-2 text-lg font-poppinsSemiBold ${
+                isActive ? "text-white" : "text-text-dark"
               }`}
             >
               {item.label}
             </Text>
           </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+        );
+      })}
+    </ScrollView>
   );
 }

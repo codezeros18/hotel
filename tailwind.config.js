@@ -15,10 +15,17 @@ module.exports = {
         poppinsBold: ["Poppins-Bold"],
       },
       colors: {
-        primary: "#3B82F6",     // Bright blue (mirip Traveloka)
-        navy: "#003D87",        // Judul seperti “Find Your Favorite Place”
-        grayText: "#6B7280",
-        background: "#F5F7FA",
+        primary: "#0056D6",
+        "primary-dark": "#003C99",
+        accent: "#D4AF37",
+        "text-dark": "#1E293B",
+        "text-muted": "#64748B",
+        background: "#EFE7D3", // ⇦ New Light Gold
+  "background-dark": "#E3DAC3",
+        success: "#16A34A",
+        warning: "#F59E0B",
+        danger: "#DC2626",
+        "bg-light": "#F8FAFC",
       },
     },
   },
