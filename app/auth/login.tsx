@@ -7,7 +7,7 @@ import LoginSocial from "../../components/login/LoginSocial";
 
 export default function Login() {
   return (
-    <View className="flex-1 bg-background px-8 justify-center">
+    <View className="flex-1 bg-white px-8 justify-center">
       <LoginHeader />
 
       <MotiView

@@ -1,24 +1,16 @@
-import { ScrollView, View } from "react-native";
-import AdminHeader from "../../components/dashboard/AdminHeader";
-import DashboardActions from "../../components/dashboard/DashboardActions";
-import DashboardRecent from "../../components/dashboard/DashboardRecent";
-import DashboardStats from "../../components/dashboard/DashboardStats";
+import { ScrollView } from "react-native";
+import AdminStatsGrid from "../../components/dashboard/AdminStatsGrid";
+import DashboardHeader from "../../components/dashboard/DashboardHeader";
+import QuickActions from "../../components/dashboard/QuickActions";
+import RecentReservations from "../../components/dashboard/RecentReservations";
 
 export default function Dashboard() {
   return (
-    <ScrollView className="flex-1 px-5 pt-14 bg-gray-50">
-      <AdminHeader />
-
-      {/* 2x2 STAT SECTION */}
-      <DashboardStats />
-
-      {/* QUICK ACTION BUTTONS */}
-      <DashboardActions />
-
-      {/* RECENT RESERVATIONS */}
-      <DashboardRecent />
-
-      <View className="h-20" />
+    <ScrollView className="flex-1 bg-white pt-8">
+      <DashboardHeader />
+      <AdminStatsGrid />
+      <QuickActions />
+      <RecentReservations />
     </ScrollView>
   );
 }

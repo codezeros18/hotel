@@ -68,7 +68,7 @@ const ROOMS = [
 
 export default function Home() {
   return (
-    <ScrollView className="flex-1 bg-background">
+    <ScrollView className="flex-1 bg-white">
       <Header />
 
       <View className="px-4 mt-4 mb-2">

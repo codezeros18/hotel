@@ -11,7 +11,7 @@ export default function Register() {
   const [secure1, setSecure1] = useState(true);
 
   return (
-    <View className="flex-1 bg-background justify-center px-8">
+    <View className="flex-1 bg-white justify-center px-8">
 
       <RegisterHeader />
 
