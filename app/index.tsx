@@ -5,78 +5,68 @@ export default function Index() {
   return (
     <ImageBackground
       source={require("../assets/images/1.webp")}
-      className="flex-1 justify-end"
+      className="flex-1"
       resizeMode="cover"
     >
-      {/* DARK OVERLAY */}
-      <View className="absolute inset-0 bg-black/45" />
+      {/* GLASS OVERLAY */}
+      <View className="absolute inset-0 bg-black/50" />
 
-      {/* BRANDING TEXT */}
-      <View className="px-8 pb-32">
-        <Text className="text-white text-5xl font-poppinsBold leading-tight">
-          Find Your{"\n"}Perfect Stay
+      {/* Branding Section */}
+      <View className="flex-1 justify-end px-8 pb-40">
+        <Text
+          className="text-white text-[46px] font-poppinsBold leading-tight"
+          style={{ textShadowColor: "#000", textShadowRadius: 8 }}
+        >
+          Find Your
+          {"\n"}
+          Perfect Stay
         </Text>
 
-        <Text className="text-white/90 mt-4 text-lg font-poppinsRegular">
-          Seamless room booking and painless hotel operations in one app.
+        <Text
+          className="text-white/90 mt-3 text-lg font-poppinsMedium max-w-[85%]"
+          style={{ textShadowColor: "#000", textShadowRadius: 8 }}
+        >
+          Premium room booking & effortless hotel operations in one experience.
         </Text>
       </View>
 
-      {/* FIRST ROW — Guest & Admin */}
-      <View className="flex-row items-center justify-between px-8 pb-6">
+      {/* CTA Primary Buttons */}
+      <View className="px-8 pb-10">
         {/* Guest */}
         <TouchableOpacity
           onPress={() => router.push("/guest/home")}
-          className="px-4 py-2"
+          className="bg-primary py-4 rounded-2xl items-center mb-3 shadow-xl"
         >
-          <Text className="text-white text-xl font-poppinsSemiBold">
-            Guest →
+          <Text className="text-white font-poppinsSemiBold text-lg">
+            Continue as Guest
           </Text>
         </TouchableOpacity>
-
-        {/* Dots */}
-        <View className="flex-row items-center gap-2">
-          <View className="w-2 h-2 rounded-full bg-white/40" />
-          <View className="w-2 h-2 rounded-full bg-white" />
-          <View className="w-2 h-2 rounded-full bg-white/40" />
-        </View>
 
         {/* Admin */}
         <TouchableOpacity
           onPress={() => router.push("/admin/dashboard")}
-          className="bg-white px-6 py-3 rounded-full shadow-xl"
+          className="bg-white/15 py-4 rounded-2xl items-center backdrop-blur-md border border-white/40 shadow-lg"
         >
-          <Text className="text-black text-xl font-poppinsSemiBold">
-            Admin →
+          <Text className="text-white font-poppinsSemiBold text-lg">
+            Admin Panel
           </Text>
         </TouchableOpacity>
       </View>
 
-      {/* SECOND ROW — Login / Signup */}
-      <View className="flex-row items-center justify-between px-8 pb-14">
-
-        {/* Login */}
-        <TouchableOpacity
-          onPress={() => router.push("/auth/login")}
-          className="border border-white/60 px-6 py-3 rounded-full"
-        >
-          <Text className="text-white text-lg font-poppinsMedium">
+      {/* Secondary Actions */}
+      <View className="flex-row justify-center gap-10 pb-8">
+        <TouchableOpacity onPress={() => router.push("/auth/login")}>
+          <Text className="text-white/90 font-poppinsMedium text-base">
             Login
           </Text>
         </TouchableOpacity>
 
-        {/* Signup */}
-        <TouchableOpacity
-          onPress={() => router.push("/auth/register")}
-          className="px-6 py-3 rounded-full bg-white/20 backdrop-blur-md"
-        >
-          <Text className="text-white text-lg font-poppinsMedium">
+        <TouchableOpacity onPress={() => router.push("/auth/register")}>
+          <Text className="text-white/90 font-poppinsMedium text-base">
             Sign Up
           </Text>
         </TouchableOpacity>
-
       </View>
-
     </ImageBackground>
   );
 }
