@@ -1,310 +1,154 @@
-import { Ionicons } from '@expo/vector-icons';
-import React, { useState } from 'react';
-import { Alert, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
+import { router } from "expo-router";
+import { useState } from "react";
+import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
 
-// --- DATA DUMMY ---
 const bookingsData = [
-  { 
-    id: 'BK-8829', 
-    hotel: 'Mandarin Oriental', 
-    image: require('../../assets/images/1.webp'), 
-    date: '12 - 14 Oct 2025', 
-    status: 'Upcoming', 
-    price: '$188', 
-    type: 'upcoming' 
+  {
+    id: "BK-8829",
+    hotel: "Mandarin Oriental",
+    image: require("../../assets/images/1.webp"),
+    date: "12 - 14 Oct 2025",
+    status: "Upcoming",
+    price: "$188",
+    type: "upcoming",
   },
-  { 
-    id: 'BK-7721', 
-    hotel: 'Kimpton Naranta', 
-    image: require('../../assets/images/2.webp'),
-    date: '01 - 03 Sep 2025', 
-    status: 'Completed', 
-    price: '$240', 
-    type: 'history' 
+  {
+    id: "BK-7721",
+    hotel: "Kimpton Naranta",
+    image: require("../../assets/images/2.webp"),
+    date: "01 - 03 Sep 2025",
+    status: "Completed",
+    price: "$240",
+    type: "history",
   },
-  { 
-    id: 'BK-1002', 
-    hotel: 'Raffles Jakarta', 
-    image: require('../../assets/images/3.webp'),
-    date: '20 Aug 2025', 
-    status: 'Cancelled', 
-    price: '$210', 
-    type: 'history' 
-  },
-  { 
-    id: 'BK-5541', 
-    hotel: 'Ayana Resort', 
-    image: require('../../assets/images/4.webp'),
-    date: '15 Jan 2024', 
-    status: 'Completed', 
-    price: '$350', 
-    type: 'history' 
+  {
+    id: "BK-1002",
+    hotel: "Raffles Jakarta",
+    image: require("../../assets/images/3.webp"),
+    date: "20 Aug 2025",
+    status: "Cancelled",
+    price: "$210",
+    type: "history",
   },
 ];
 
-export default function Bookings() {
-  const [activeTab, setActiveTab] = useState<'upcoming' | 'history'>('upcoming');
-  const filteredData = bookingsData.filter(item => item.type === activeTab);
+const getBadgeColor = {
+  Upcoming: "bg-primary/15 text-primary-dark",
+  Completed: "bg-success/15 text-success",
+  Cancelled: "bg-danger/15 text-danger",
+};
 
-  const getStatusColor = (status: string) => {
-    if (status === 'Upcoming') return { bg: '#DBEAFE', text: '#1D4ED8' };
-    if (status === 'Cancelled') return { bg: '#FEE2E2', text: '#B91C1C' };
-    return { bg: '#DCFCE7', text: '#15803D' };
-  };
+export default function Bookings() {
+  const [tab, setTab] = useState<"upcoming" | "history">("upcoming");
+  const filtered = bookingsData.filter((b) => b.type === tab);
 
   return (
-    <View style={styles.container}>
-      {/* --- HEADER --- */}
-      <View style={styles.headerContainer}>
-        <Text style={styles.headerTitle}>My Trips</Text>
-        
-        <View style={styles.tabContainer}>
-            <TouchableOpacity 
-                onPress={() => setActiveTab('upcoming')}
-                style={[styles.tabButton, activeTab === 'upcoming' && styles.activeTab]}
-            >
-                <Text style={[styles.tabText, activeTab === 'upcoming' && styles.activeTabText]}>Upcoming</Text>
-            </TouchableOpacity>
-            <TouchableOpacity 
-                onPress={() => setActiveTab('history')}
-                style={[styles.tabButton, activeTab === 'history' && styles.activeTab]}
-            >
-                <Text style={[styles.tabText, activeTab === 'history' && styles.activeTabText]}>History</Text>
-            </TouchableOpacity>
+    <View className="flex-1 bg-bg-light">
+      {/* HEADER */}
+      <View className="px-6 pt-16 pb-8 bg-white rounded-b-3xl shadow-lg">
+        <Text className="text-3xl font-poppinsBold text-text-dark">Bookings</Text>
+        <Text className="text-text-muted font-poppinsMedium mt-1">
+          Track and manage your stays
+        </Text>
+
+        {/* TABS */}
+        <View className="flex-row bg-gray-200/60 mt-6 rounded-full p-1">
+          {["upcoming", "history"].map((item) => {
+            const active = item === tab;
+            return (
+              <TouchableOpacity
+                key={item}
+                onPress={() => setTab(item as any)}
+                className={`flex-1 items-center py-3 rounded-full ${
+                  active ? "bg-primary shadow-md" : ""
+                }`}
+              >
+                <Text
+                  className={`font-poppinsSemiBold ${
+                    active ? "text-white" : "text-text-muted"
+                  }`}
+                >
+                  {item === "upcoming" ? "Upcoming" : "History"}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
       </View>
 
-      {/* --- LIST --- */}
+      {/* BOOKING LIST */}
       <FlatList
-        data={filteredData}
+        data={filtered}
         keyExtractor={(item) => item.id}
-        contentContainerStyle={{ padding: 24 }}
+        contentContainerStyle={{ paddingHorizontal: 20, paddingTop: 20 }}
         ListEmptyComponent={
-            <View style={styles.emptyContainer}>
-                <Ionicons name="calendar-outline" size={64} color="#E5E7EB" />
-                <Text style={styles.emptyText}>No bookings here</Text>
-            </View>
+          <View className="mt-20 items-center">
+            <Ionicons name="calendar-outline" size={62} color="#C7C7C7" />
+            <Text className="text-text-muted mt-3 font-poppinsMedium">
+              No bookings found
+            </Text>
+          </View>
         }
-        renderItem={({ item }) => {
-          const colors = getStatusColor(item.status);
-          return (
-            <TouchableOpacity 
-                style={styles.card}
-                activeOpacity={0.8}
-                onPress={() => Alert.alert("Info", "Detail booking akan dikerjakan oleh Dimas.")}
-            >
-                <View style={styles.cardRow}>
-                    <Image source={item.image} style={styles.cardImage} />
-                    <View style={styles.cardInfo}>
-                        <View style={styles.cardHeader}>
-                            <Text style={styles.hotelName} numberOfLines={1}>{item.hotel}</Text>
-                            <View style={[styles.badge, { backgroundColor: colors.bg }]}>
-                                <Text style={[styles.badgeText, { color: colors.text }]}>{item.status}</Text>
-                            </View>
-                        </View>
-                        
-                        <Text style={styles.idText}>ID: {item.id}</Text>
-
-                        {/* --- UPDATE: PRICE TAG DENGAN ICON UANG --- */}
-                        <View style={styles.pricePill}>
-                            <Ionicons name="cash-outline" size={14} color="#2563EB" />
-                            <Text style={styles.priceText}>{item.price}</Text>
-                        </View>
-                        {/* ------------------------------------------ */}
-
-                    </View>
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            onPress={() => router.push(`/guest/booking-detail/${item.id}` as any)}
+            className="bg-white rounded-3xl p-5 mb-4 shadow-lg"
+          >
+            {/* Top */}
+            <View className="flex-row mb-4">
+              <Image
+                source={item.image}
+                className="w-24 h-24 rounded-2xl bg-gray-200"
+              />
+              <View className="flex-1 ml-4">
+                <View className="flex-row justify-between">
+                  <Text className="text-lg font-poppinsSemiBold text-text-dark">
+                    {item.hotel}
+                  </Text>
+                  <Text
+                    className={`px-2 py-[2px] rounded-full text-xs font-poppinsSemiBold ${getBadgeColor[item.status as keyof typeof getBadgeColor]}`}
+                  >
+                    {item.status}
+                  </Text>
                 </View>
-                
-                <View style={styles.divider} />
 
-                <View style={styles.cardFooter}>
-                    <View style={styles.dateContainer}>
-                        <Ionicons name="calendar-outline" size={14} color="#6B7280" />
-                        <Text style={styles.dateText}>{item.date}</Text>
-                    </View>
-                    <View style={styles.detailsBtn}>
-                        <Text style={styles.detailsText}>Details</Text>
-                        <Ionicons name="chevron-forward" size={14} color="#999" />
-                    </View>
+                <Text className="text-xs text-text-muted mt-[3px]">
+                  ID: {item.id}
+                </Text>
+
+                {/* Price pill */}
+                <View className="flex-row items-center mt-3 bg-primary/10 px-2 py-[3px] rounded-full border border-primary/20 w-fit">
+                  <Ionicons name="cash-outline" color="#0056D6" size={14} />
+                  <Text className="ml-1 text-primary-dark font-poppinsSemiBold text-sm">
+                    {item.price}
+                  </Text>
                 </View>
-            </TouchableOpacity>
-          );
-        }}
+              </View>
+            </View>
+
+            {/* Divider */}
+            <View className="h-[1px] bg-gray-100 mb-4" />
+
+            {/* Footer */}
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <Ionicons name="calendar-outline" size={14} color="#6B7280" />
+                <Text className="text-text-muted ml-2 text-sm">
+                  {item.date}
+                </Text>
+              </View>
+
+              <View className="flex-row items-center">
+                <Text className="text-primary-dark text-sm font-poppinsMedium mr-1">
+                  Details
+                </Text>
+                <Ionicons name="chevron-forward" size={16} color="#0056D6" />
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  headerContainer: {
-    paddingTop: 60,
-    paddingHorizontal: 24,
-    paddingBottom: 16,
-    backgroundColor: '#fff',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.05,
-    shadowRadius: 2,
-    elevation: 2,
-    zIndex: 10,
-  },
-  headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#111827',
-    marginBottom: 20,
-  },
-  tabContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#F3F4F6',
-    padding: 4,
-    borderRadius: 12,
-  },
-  tabButton: {
-    flex: 1,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  activeTab: {
-    backgroundColor: '#fff',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    elevation: 1,
-  },
-  tabText: {
-    fontWeight: '600',
-    color: '#6B7280',
-  },
-  activeTabText: {
-    color: '#2563EB',
-  },
-  emptyContainer: {
-    alignItems: 'center',
-    marginTop: 80,
-  },
-  emptyText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: '#9CA3AF',
-    fontWeight: '500',
-  },
-  card: {
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 16,
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: '#F3F4F6',
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.05,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  cardRow: {
-    flexDirection: 'row',
-    marginBottom: 16,
-  },
-  cardImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 12,
-    backgroundColor: '#E5E7EB',
-  },
-  cardInfo: {
-    flex: 1,
-    marginLeft: 16,
-    justifyContent: 'center',
-  },
-  cardHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-  },
-  hotelName: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#111827',
-    flex: 1,
-    marginRight: 8,
-  },
-  badge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 6,
-  },
-  badgeText: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    textTransform: 'uppercase',
-  },
-  idText: {
-    color: '#9CA3AF',
-    fontSize: 12,
-    marginTop: 4,
-  },
-  
-  // --- STYLE BARU UNTUK ICON DOLAR ---
-  pricePill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#EFF6FF', // Biru sangat muda
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 20, // Biar rounded kayak pil
-    alignSelf: 'flex-start',
-    marginTop: 8,
-    borderWidth: 1,
-    borderColor: '#DBEAFE', // Border biru tipis
-  },
-  priceText: {
-    color: '#2563EB', // Teks Biru
-    fontSize: 14,
-    fontWeight: 'bold',
-    marginLeft: 4, // Jarak antara icon dan teks
-  },
-  // -----------------------------------
-
-  divider: {
-    height: 1,
-    backgroundColor: '#F3F4F6',
-    width: '100%',
-    marginBottom: 12,
-  },
-  cardFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F9FAFB',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  dateText: {
-    marginLeft: 6,
-    color: '#4B5563',
-    fontSize: 12,
-    fontWeight: '500',
-  },
-  detailsBtn: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  detailsText: {
-    fontSize: 12,
-    color: '#9CA3AF',
-    fontWeight: 'bold',
-    marginRight: 4,
-  },
-});
