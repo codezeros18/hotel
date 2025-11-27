@@ -5,17 +5,15 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import ManageHotels from "./pages/manage-hotels";
 import ManageRoomTypes from "./pages/manage-rooms-type";
 import ManageRooms from "./pages/manage-rooms";
 
-type Tab = "hotels" | "roomTypes" | "rooms";
+type Tab =  "roomTypes" | "rooms";
 
 export default function Manage() {
-  const [activeTab, setActiveTab] = useState<Tab>("hotels");
+  const [activeTab, setActiveTab] = useState<Tab>("roomTypes");
 
   const tabs: { key: Tab; label: string }[] = [
-    { key: "hotels", label: "Hotels" },
     { key: "roomTypes", label: "Room Types" },
     { key: "rooms", label: "Rooms" },
   ];
@@ -50,7 +48,6 @@ export default function Manage() {
 
       {/* Content */}
       <ScrollView className="flex-1">
-        {activeTab === "hotels" && <ManageHotels />}
         {activeTab === "roomTypes" && <ManageRoomTypes />}
         {activeTab === "rooms" && <ManageRooms />}
       </ScrollView>
