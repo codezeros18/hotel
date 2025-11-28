@@ -1,9 +1,5 @@
-import { Text, View } from "react-native";
+import ScannerScreen from "../../components/scanner/ScannerScreen";
 
-export default function Scanner() {
-  return (
-    <View className="flex-1 items-center justify-center bg-white">
-      <Text className="text-2xl font-bold">Scanner</Text>
-    </View>
-  );
+export default function ScannerPage() {
+  return <ScannerScreen />;
 }
